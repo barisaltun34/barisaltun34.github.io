@@ -1,74 +1,270 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barış Umut Altun | Kişisel Web Sitesi</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #b3b3b3;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 600px;
-            width: 100%;
-        }
-        h1 {
-            color: #ffffff;
-            font-size: 24px;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-        .subtitle {
-            color: #00ff66; /* Terminal yeşili */
-            font-size: 14px;
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        .links a {
-            color: #ffffff;
-            text-decoration: none;
-            border-bottom: 1px dashed #ffffff;
-            margin-right: 20px;
-            font-size: 14px;
-            transition: color 0.3s;
-        }
-        .links a:hover {
-            color: #00ff66;
-            border-bottom: 1px dashed #00ff66;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Barış Umut Altun | Cyber Security & Software</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<style>
+@import 'https://fonts.googleapis.com/css?family=Inconsolata';
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  box-sizing: border-box;
+  background-color: #000000;
+  background-image: radial-gradient(#11581E, #041607), url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  font-family: "Inconsolata", Helvetica, sans-serif;
+  font-size: 1.5rem;
+  color: rgba(128, 255, 128, 0.8);
+  text-shadow: 0 0 1ex #33ff33, 0 0 2px rgba(255, 255, 255, 0.8);
+  overflow: hidden;
+}
+
+.noise {
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://media.giphy.com/media/oEI9uBYSzLpBK/giphy.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1;
+  opacity: 0.02;
+}
+
+.overlay {
+  pointer-events: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0) 100%);
+  background-size: auto 4px;
+  z-index: 1;
+}
+
+.overlay::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(0deg, transparent 0%, rgba(32, 128, 32, 0.2) 2%, rgba(32, 128, 32, 0.8) 3%, rgba(32, 128, 32, 0.2) 3%, transparent 100%);
+  background-repeat: no-repeat;
+  animation: scan 7.5s linear 0s infinite;
+}
+
+@keyframes scan {
+  0% {
+    background-position: 0 -100vh;
+  }
+  35%, 100% {
+    background-position: 0 100vh;
+  }
+}
+
+.terminal {
+  box-sizing: inherit;
+  position: absolute;
+  height: 100%;
+  width: 1000px;
+  max-width: 100%;
+  padding: 4rem;
+  text-transform: uppercase;
+  overflow-y: auto;
+}
+
+.output {
+  color: rgba(128, 255, 128, 0.8);
+  text-shadow: 0 0 1px rgba(51, 255, 51, 0.4), 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.output::before {
+  content: "> ";
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a::before {
+  content: "[";
+}
+
+a::after {
+  content: "]";
+}
+
+.errorcode {
+  color: white;
+}
+
+#input-line {
+  display: flex;
+  margin-top: 20px;
+}
+
+#prompt {
+  color: rgba(192, 255, 192, 0.8);
+  text-shadow: 0 0 1px rgba(51, 255, 51, 0.4), 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+#input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: rgba(192, 255, 192, 0.8);
+  font-family: inherit;
+  font-size: inherit;
+  text-shadow: 0 0 1px rgba(51, 255, 51, 0.4), 0 0 2px rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  outline: none;
+  margin-left: 5px;
+}
+
+.ascii-art {
+  white-space: pre;
+  font-family: monospace;
+  font-size: 0.8em;
+  line-height: 1;
+}
+</style>
 </head>
 <body>
-
-<div class="container">
-    <h1>BARIŞ UMUT ALTUN</h1>
-    <div class="subtitle">Siber Güvenlik & Yazılım</div>
-    
-    <p>
-        Merhaba, ben Barış. Dijital dünyanın güvenliği ve yazılım geliştirme teknolojileri ile ilgileniyorum. 
-        Sistem analizi, sızma testleri ve güvenli kodlama üzerine çalışmalar yapıyorum.
-    </p>
-
-    <div class="links">
-        <!-- Buradaki linklerin tırnak içi kısımlarını kendi hesap adreslerine göre güncelleyebilirsin -->
-        <a href="https://linkedin.com/in/barisumutaltun" target="_blank">LINKEDIN</a>
-        <a href="https://github.com/barisaltun34" target="_blank">GITHUB</a>
-        <a href="mailto:iletisim@barisumutaltun.com" target="_blank">E-POSTA</a>
-    </div>
+<div class="noise"></div>
+<div class="overlay"></div>
+<div class="terminal">
+  <h1>Barış Umut <span class="errorcode">Altun</span></h1>
+  <p class="output">HACKING IS NOT A CRIME. IT'S AN ART OF AWARENESS</p>
+  <p class="output">YARDIM ICIN 'HELP' YAZIN VE ENTER'A BASIN.</p>
+  <div id="terminal-output"></div>
+  <div id="input-line">
+    <span id="prompt">$</span>
+    <input type="text" id="input" autofocus>
+  </div>
 </div>
 
+<script>
+const terminalOutput = document.getElementById('terminal-output');
+const input = document.getElementById('input');
+const prompt = document.getElementById('prompt');
+const terminal = document.querySelector('.terminal');
+
+function addOutput(text) {
+    const p = document.createElement('p');
+    p.classList.add('output');
+    p.innerHTML = text;
+    terminalOutput.appendChild(p);
+    terminal.scrollTop = terminal.scrollHeight;
+}
+
+const funnyResponses = [
+    "Nice try, script kiddie! But I'm not that easy to crack.",
+    "Ah, the classic 'random command' approach. Very 1337 of you!",
+    "Don't push me, buddy! I've got 99 problems, but a glitch ain't one.",
+    "Hack me? You can't even hack a sandwich!",
+    "Access denied. Please try again after completing this captcha: ████████",
+];
+
+let lastResponseIndex = -1;
+
+function getRandomFunnyResponse() {
+    let newIndex;
+    do {
+        newIndex = Math.floor(Math.random() * funnyResponses.length);
+    } while (newIndex === lastResponseIndex && funnyResponses.length > 1);
+    
+    lastResponseIndex = newIndex;
+    return funnyResponses[newIndex];
+}
+
+async function typeWriter(text, element, speed = 10) {
+    for (let i = 0; i < text.length; i++) {
+        element.innerHTML += text.charAt(i);
+        await new Promise(resolve => setTimeout(resolve, speed));
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+}
+
+async function displayMetasploitConsole() {
+    const consoleContent = `
+        _____                      _                        _       _ _   
+       |  ___|                    | |                      | |     (_) |  
+       | |__ _ __ __ _| | ___ _ __ ___  ___ _ __ | | ___  _| |_ 
+       |  __| '__/ _\` | |/ _ \\ '_ \` _ \\/ __| '_ \\| |/ _ \\| | __|
+       | |__| | | (_| | |  __/ | | | | \\__ \\ |_) | | (_) | | |_ 
+       \\____/_|  \\__,_|_|\\___|_| |_| |_|___/ .__/|_|\\___/|_|\\__|
+                                           | |                  
+                                           |_|                  
+
+      =[ barisploit v1.0.0-release                      ]
++ -- --=[ 1337 exploits - 404 auxiliary - 777 post        ]
++ -- --=[ 200 payloads - 26 encoders - 5 nops             ]`;
+
+    const consoleElement = document.createElement('div');
+    consoleElement.classList.add('ascii-art');
+    terminalOutput.appendChild(consoleElement);
+
+    await typeWriter(consoleContent, consoleElement, 1);
+
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const finalMessage = document.createElement('p');
+    finalMessage.classList.add('output');
+    terminalOutput.appendChild(finalMessage);
+    await typeWriter("System breached successfully. Just kidding, welcome!", finalMessage, 50);
+}
+
+function processCommand(command) {
+    switch(command.toLowerCase()) {
+        case 'help':
+            return 'Available commands: about, skills, contact, clear';
+        case 'about':
+            return 'Baris Umut Altun is an aspiring Cybersecurity Researcher and Software Developer, focused on ethical hacking, system security, and interactive web technologies.';
+        case 'skills':
+            return 'Skills: Ethical Hacking, Network Security, Python, Linux, Web Development';
+        case 'contact':
+            return 'Email: barisumutaltun@outlook.com | Website: barisumutaltun.com';
+        case 'clear':
+            terminalOutput.innerHTML = '';
+            return '';
+        case 'whoami':
+            return "You are a guest exploring Baris's server. Type 'help' to see what you can do.";
+        case 'msfconsole':
+            displayMetasploitConsole();
+            return '';
+        default:
+            return getRandomFunnyResponse();
+    }
+}
+
+input.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        const command = this.value;
+        addOutput(`$ ${command}`);
+        
+        const output = processCommand(command);
+        if (output) addOutput(output);
+
+        this.value = '';
+    }
+});
+
+input.focus();
+
+terminal.addEventListener('click', function() {
+    input.focus();
+});
+</script>
 </body>
 </html>
