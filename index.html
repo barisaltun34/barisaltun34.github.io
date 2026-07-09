@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Barış Umut Altun | Cyber Security & Software</title>
+<title>Barış Umut Altun | Business Development & Data Analyst</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <style>
 @import 'https://fonts.googleapis.com/css?family=Inconsolata';
@@ -20,7 +20,7 @@ body {
   background-size: cover;
   background-attachment: fixed;
   font-family: "Inconsolata", Helvetica, sans-serif;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   color: rgba(128, 255, 128, 0.8);
   text-shadow: 0 0 1ex #33ff33, 0 0 2px rgba(255, 255, 255, 0.8);
   overflow: hidden;
@@ -77,7 +77,7 @@ body {
   box-sizing: inherit;
   position: absolute;
   height: 100%;
-  width: 1000px;
+  width: 1050px;
   max-width: 100%;
   padding: 4rem;
   text-transform: uppercase;
@@ -136,8 +136,9 @@ a::after {
 .ascii-art {
   white-space: pre;
   font-family: monospace;
-  font-size: 0.8em;
-  line-height: 1;
+  font-size: 0.75em;
+  line-height: 1.1;
+  color: #33ff33;
 }
 </style>
 </head>
@@ -146,11 +147,11 @@ a::after {
 <div class="overlay"></div>
 <div class="terminal">
   <h1>Barış Umut <span class="errorcode">Altun</span></h1>
-  <p class="output">HACKING IS NOT A CRIME. IT'S AN ART OF AWARENESS</p>
-  <p class="output">YARDIM ICIN 'HELP' YAZIN VE ENTER'A BASIN.</p>
+  <p class="output">STRATEGIC BUSINESS DEVELOPMENT & COMMERCIAL ANALYTICS INTERACTIVE PORTFOLIO</p>
+  <p class="output">KOMUT LISTESI ICIN 'HELP' YAZIP ENTER'A BASIN.</p>
   <div id="terminal-output"></div>
   <div id="input-line">
-    <span id="prompt">$</span>
+    <span id="prompt">B_ALTUN_SERVER$</span>
     <input type="text" id="input" autofocus>
   </div>
 </div>
@@ -169,12 +170,13 @@ function addOutput(text) {
     terminal.scrollTop = terminal.scrollHeight;
 }
 
+// Kurumsal ve veri odaklı esprili hatalar
 const funnyResponses = [
-    "Nice try, script kiddie! But I'm not that easy to crack.",
-    "Ah, the classic 'random command' approach. Very 1337 of you!",
-    "Don't push me, buddy! I've got 99 problems, but a glitch ain't one.",
-    "Hack me? You can't even hack a sandwich!",
-    "Access denied. Please try again after completing this captcha: ████████",
+    "Command not recognized. Did you budget for this command?",
+    "Error 404: Market anomaly detected. Try a valid command.",
+    "Data pipeline busy. Please stick to the official menu.",
+    "Optimization error: Insufficient data variables for this query.",
+    "Access granted, but command invalid. Type 'help' for corporate clearance.",
 ];
 
 let lastResponseIndex = -1;
@@ -189,7 +191,7 @@ function getRandomFunnyResponse() {
     return funnyResponses[newIndex];
 }
 
-async function typeWriter(text, element, speed = 10) {
+async function typeWriter(text, element, speed = 5) {
     for (let i = 0; i < text.length; i++) {
         element.innerHTML += text.charAt(i);
         await new Promise(resolve => setTimeout(resolve, speed));
@@ -197,51 +199,61 @@ async function typeWriter(text, element, speed = 10) {
     }
 }
 
-async function displayMetasploitConsole() {
-    const consoleContent = `
-        _____                      _                        _       _ _   
-       |  ___|                    | |                      | |     (_) |  
-       | |__ _ __ __ _| | ___ _ __ ___  ___ _ __ | | ___  _| |_ 
-       |  __| '__/ _\` | |/ _ \\ '_ \` _ \\/ __| '_ \\| |/ _ \\| | __|
-       | |__| | | (_| | |  __/ | | | | \\__ \\ |_) | | (_) | | |_ 
-       \\____/_|  \\__,_|_|\\___|_| |_| |_|___/ .__/|_|\\___/|_|\\__|
-                                           | |                  
-                                           |_|                  
+// MSFCONSOLE yerine simüle edilmiş analitik raporlama ekranı
+async function displayBusinessDashboard() {
+    const dashboardContent = `
+   ======================================================================
+   |                BARIS UMUT ALTUN - ANALYTICS SYSTEM v1.0            |
+   ======================================================================
+   [+] CONNECTING TO SAP ERP ENGINE...                              [OK]
+   [+] FETCHING QLIK SENSE DATA MODELS...                           [OK]
+   [+] RUNNING REVENUE OPTIMIZATION ALGORITHMS...                  [OK]
 
-      =[ barisploit v1.0.0-release                      ]
-+ -- --=[ 1337 exploits - 404 auxiliary - 777 post        ]
-+ -- --=[ 200 payloads - 26 encoders - 5 nops             ]`;
+   PREDICTIVE CORPORATE MATRIX PERFORMANCE DIAGRAM:
+   
+        GROWTH  ^                                      * [Target Met]
+                |                                    *
+                |                                  *
+                |              * [Current Phase]
+                |            *
+                |          *
+                |        *
+                |      *
+                +--------------------------------------------------> TIME
+                  2020       2022       2024       2026
+
+   [STRATEGY TIP]: OPTIMIZE CORE SYSTEMS WITH RPA TO REDUCE OPERATIONAL LEAKAGE.`;
 
     const consoleElement = document.createElement('div');
     consoleElement.classList.add('ascii-art');
     terminalOutput.appendChild(consoleElement);
 
-    await typeWriter(consoleContent, consoleElement, 1);
+    await typeWriter(dashboardContent, consoleElement, 2);
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 800));
     const finalMessage = document.createElement('p');
     finalMessage.classList.add('output');
     terminalOutput.appendChild(finalMessage);
-    await typeWriter("System breached successfully. Just kidding, welcome!", finalMessage, 50);
+    await typeWriter("Data consolidated successfully. Ready for executive review.", finalMessage, 30);
 }
 
 function processCommand(command) {
     switch(command.toLowerCase()) {
         case 'help':
-            return 'Available commands: about, skills, contact, clear';
+            return 'AVAILABLE COMMANDS: about, education, skills, experience, dashboard, clear';
         case 'about':
-            return 'Baris Umut Altun is an aspiring Cybersecurity Researcher and Software Developer, focused on ethical hacking, system security, and interactive web technologies.';
+            return 'BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, PRICING SYSTEMS, AND DIGITAL TRANSFORMATION PROJECTS.';
+        case 'education':
+            return 'EDUCATION BACKGROUND:<br>- DOGUS UNIVERSITY: INDUSTRIAL ENGINEERING (B.Sc. - 100% SCHOLARSHIP)<br>- AKDENIZ UNIVERSITY: COMPUTER PROGRAMMING (A.A.S.)';
         case 'skills':
-            return 'Skills: Ethical Hacking, Network Security, Python, Linux, Web Development';
-        case 'contact':
-            return 'Email: barisumutaltun@outlook.com | Website: barisumutaltun.com';
+            return 'CORE COMPETENCIES:<br>- DATA & BI: SAP ERP, QLIK SENSE, PYTHON, DATA SCIENCE, PROCESS SIMULATION<br>- STRATEGY: COMMERCIAL ANALYSIS, PRICING & COST MANAGEMENT, REVENUE OPTIMIZATION, BUDGET PLANNING<br>- OPERATIONS: CRM MANAGEMENT, RPA AUTOMATION, TURQUALITY (TQ) PROJECTS';
+        case 'experience':
+            return 'PROFESSIONAL SUMMARY:<br>- SENIOR BUSINESS DEVELOPMENT SPECIALIST (2022 - PRESENT): MANAGING PRICING ARCHITECTURE, REVENUE ANALYSIS, COMPETITIVE INTELLIGENCE, AND CROSS-FUNCTIONAL DATA INTEGRATION INTERNALLY.<br>- PLANNING & OPTIMIZATION ENGINEER (2020 - 2022): WORKFORCE MANAGEMENT, SYSTEM MONITORING, KPI EVALUATION, AND PERFORMANCE REPORTING.';
+        case 'dashboard':
+            displayBusinessDashboard();
+            return '';
         case 'clear':
             terminalOutput.innerHTML = '';
-            return '';
-        case 'whoami':
-            return "You are a guest exploring Baris's server. Type 'help' to see what you can do.";
-        case 'msfconsole':
-            displayMetasploitConsole();
             return '';
         default:
             return getRandomFunnyResponse();
