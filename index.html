@@ -141,16 +141,19 @@ a::after {
   color: #33ff33;
 }
 </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M0CREXHDK0"></script>
+
+<!-- ========================================== -->
+<!-- A KODU: GOOGLE ANALYTICS ALTYPISI (GA4)   -->
+<!-- ========================================== -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
+  // G-XXXXXXXXXX yazan yeri kendi ölçüm kimliğinle değiştireceksin
   gtag('config', 'G-XXXXXXXXXX');
 </script>
-  
 </head>
 <body>
 <div class="noise"></div>
@@ -254,14 +257,17 @@ async function displayBusinessDashboard() {
     await typeWriter("Operational overview generated successfully. System stable.", finalMessage, 20);
 }
 
-function processCommand(command)
-// Temizleme komutu hariç her komutu Google Analytics'e gönderir
+// ==========================================
+<!-- B KODU: LOGLAMA VE TETIKLEYICI FONKS.  -->
+// ==========================================
+function processCommand(command) {
+    // Girilen bosluklari veya 'clear' komutunu analitigi kirletmesin diye filtreliyoruz
     if (command.trim() !== '' && command.toLowerCase() !== 'clear') {
         gtag('event', 'terminal_command', {
             'command_value': command.toLowerCase()
         });
     }
-{
+
     switch(command.toLowerCase()) {
         case 'help':
             return 'AVAILABLE COMMANDS: about, education, skills, experience, dashboard, certifications, contact, cv, clear';
