@@ -137,7 +137,7 @@ a::after {
   white-space: pre;
   font-family: monospace;
   font-size: 0.75em;
-  line-height: 1.1;
+  line-height: 1.3;
   color: #33ff33;
 }
 </style>
@@ -170,7 +170,6 @@ function addOutput(text) {
     terminal.scrollTop = terminal.scrollHeight;
 }
 
-// Kurumsal ve veri odaklı esprili hatalar
 const funnyResponses = [
     "Command not recognized. Did you budget for this command?",
     "Error 404: Market anomaly detected. Try a valid command.",
@@ -191,7 +190,7 @@ function getRandomFunnyResponse() {
     return funnyResponses[newIndex];
 }
 
-async function typeWriter(text, element, speed = 5) {
+async function typeWriter(text, element, speed = 2) {
     for (let i = 0; i < text.length; i++) {
         element.innerHTML += text.charAt(i);
         await new Promise(resolve => setTimeout(resolve, speed));
@@ -199,42 +198,52 @@ async function typeWriter(text, element, speed = 5) {
     }
 }
 
-// MSFCONSOLE yerine simüle edilmiş analitik raporlama ekranı
+// Barların kalktığı, tamamen proje ve yetkinlik özeti odaklı kurumsal panel
 async function displayBusinessDashboard() {
     const dashboardContent = `
-   ======================================================================
-   |                BARIS UMUT ALTUN - ANALYTICS SYSTEM v1.0            |
-   ======================================================================
-   [+] CONNECTING TO SAP ERP ENGINE...                              [OK]
-   [+] FETCHING QLIK SENSE DATA MODELS...                           [OK]
-   [+] RUNNING REVENUE OPTIMIZATION ALGORITHMS...                  [OK]
-
-   PREDICTIVE CORPORATE MATRIX PERFORMANCE DIAGRAM:
+   +--------------------------------------------------------------------+
+   |                   EXECUTIVE PERFORMANCE DASHBOARD                  |
+   +--------------------------------------------------------------------+
    
-        GROWTH  ^                                      * [Target Met]
-                |                                    *
-                |                                  *
-                |              * [Current Phase]
-                |            *
-                |          *
-                |        *
-                |      *
-                +--------------------------------------------------> TIME
-                  2020       2022       2024       2026
-
-   [STRATEGY TIP]: OPTIMIZE CORE SYSTEMS WITH RPA TO REDUCE OPERATIONAL LEAKAGE.`;
+   ■ ENTERPRISE PROJECT PORTFOLIO (STRATEGIC DELIVERABLES)
+   ----------------------------------------------------------------------
+   1. COST OPTIMIZATION PROJECT (MALİYET OPTİMİZASYONU)
+      - FOCUS: MARGIN ENHANCEMENTS, COST MODELING & PRICING ARCHITECTURE.
+   
+   2. END-TO-END CUSTOMER EXPERIENCE (UÇTAN UCA MÜŞTERİ DENEYİMİ)
+      - FOCUS: TURQUALITY PROJECT - UX OPTIMIZATION & GLOBAL COMPLIANCE.
+   
+   3. DIGITALIZATION IN SALES (SATIŞTA DİJİTALLEŞME)
+      - FOCUS: TURQUALITY PROJECT - CRM INTEGRATION & RPA REQ. ANALYSIS.
+   
+   4. CUSTOMER SEGMENTATION PROJECT (MÜŞTERİ SEGMENTASYONU)
+      - FOCUS: DATA-DRIVEN TARGETING & QLIK SENSE BI DATA ANALYSIS.
+   
+   ■ PROFESSIONAL CAPABILITIES SUMMARY (CORE SKILLS)
+   ----------------------------------------------------------------------
+   - DOMAIN BACKGROUND : INDUSTRIAL ENGINEERING + COMPUTER PROGRAMMING
+   - SYSTEMS ARCHITYPE : SAP ERP (KEY USER), QLIK SENSE BI, CRM
+   - THE BRIDGE ROLE   : BUSINESS-IT ALIGNMENT & TECHNICAL INTERPRETATION
+   - COMMERCIAL ENGINE : PRICING SYSTEMS, KPI MANAGEMENT & BUDGETING
+   
+   ■ OPERATIONAL PROCESS MATRIX
+   ----------------------------------------------------------------------
+   [✓] REVENUE & PROFITABILITY ANALYSIS   [✓] ANNUAL SALES BUDGETING
+   [✓] SALES COMMISSIONS/KPI LOGIC        [✓] COMMERCIAL LEAKAGE CONTROL
+   +--------------------------------------------------------------------+`;
 
     const consoleElement = document.createElement('div');
     consoleElement.classList.add('ascii-art');
     terminalOutput.appendChild(consoleElement);
 
+    // Yazı bloğu büyük olduğu için okuma hızını artırmak adına speed'i 2'ye düşürdüm.
     await typeWriter(dashboardContent, consoleElement, 2);
 
-    await new Promise(resolve => setTimeout(resolve, 800));
+    await new Promise(resolve => setTimeout(resolve, 500));
     const finalMessage = document.createElement('p');
     finalMessage.classList.add('output');
     terminalOutput.appendChild(finalMessage);
-    await typeWriter("Data consolidated successfully. Ready for executive review.", finalMessage, 30);
+    await typeWriter("Operational overview generated successfully. System stable.", finalMessage, 20);
 }
 
 function processCommand(command) {
@@ -246,9 +255,9 @@ function processCommand(command) {
         case 'education':
             return 'EDUCATION BACKGROUND:<br>- DOGUS UNIVERSITY: INDUSTRIAL ENGINEERING (B.Sc. - 100% SCHOLARSHIP)<br>- AKDENIZ UNIVERSITY: COMPUTER PROGRAMMING (A.A.S.)';
         case 'skills':
-            return 'CORE COMPETENCIES:<br>- DATA & BI: SAP ERP, QLIK SENSE, PYTHON, DATA SCIENCE, PROCESS SIMULATION<br>- STRATEGY: COMMERCIAL ANALYSIS, PRICING & COST MANAGEMENT, REVENUE OPTIMIZATION, BUDGET PLANNING<br>- OPERATIONS: CRM MANAGEMENT, RPA AUTOMATION, TURQUALITY (TQ) PROJECTS';
+            return 'CORE COMPETENCIES:<br>- DATA & BI: SAP ERP, QLIK SENSE, PYTHON, DATA SCIENCE, PROCESS SIMULATION<br>- STRATEGY: COMMERCIAL ANALYSIS, PRICING & COST MANAGEMENT, REVENUE OPTIMIZATION, BUDGET PLANNING<br>- BRIDGE ROLE: BUSINESS-IT ALIGNMENT, DIGITAL SALES PROCESSES, REQ. TRANSLATION FOR RPA/CRM';
         case 'experience':
-            return 'PROFESSIONAL SUMMARY:<br>- SENIOR BUSINESS DEVELOPMENT SPECIALIST (2022 - PRESENT): MANAGING PRICING ARCHITECTURE, REVENUE ANALYSIS, COMPETITIVE INTELLIGENCE, AND CROSS-FUNCTIONAL DATA INTEGRATION INTERNALLY.<br>- PLANNING & OPTIMIZATION ENGINEER (2020 - 2022): WORKFORCE MANAGEMENT, SYSTEM MONITORING, KPI EVALUATION, AND PERFORMANCE REPORTING.';
+            return 'PROFESSIONAL SUMMARY:<br>- SENIOR BUSINESS DEVELOPMENT SPECIALIST (2022 - PRESENT): MANAGING PRICING ARCHITECTURE, REVENUE ANALYSIS, AND BRIDGING THE GAP BETWEEN COMMERCIAL TEAMS AND IT DEPARTMENTS AS A KEY USER.<br>- PLANNING & OPTIMIZATION ENGINEER (2020 - 2022): WORKFORCE MANAGEMENT, SYSTEM MONITORING, KPI EVALUATION, AND PERFORMANCE REPORTING.';
         case 'dashboard':
             displayBusinessDashboard();
             return '';
