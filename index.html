@@ -147,7 +147,7 @@ a::after {
 <div class="overlay"></div>
 <div class="terminal">
   <h1>Barış Umut <span class="errorcode">Altun</span></h1>
-  <p class="output">IT PROFESSIONAL & INDUSTRIAL ENGINEER</p>
+  <p class="output">IT PROFESSIONAL & INDUSTRIAL ENGINEER | INTERACTIVE PORTFOLIO</p>
   <p class="output">KOMUT LISTESI ICIN 'HELP' YAZIP ENTER'A BASIN.</p>
   <div id="terminal-output"></div>
   <div id="input-line">
@@ -198,7 +198,6 @@ async function typeWriter(text, element, speed = 2) {
     }
 }
 
-// Barların kalktığı, tamamen proje ve yetkinlik özeti odaklı kurumsal panel
 async function displayBusinessDashboard() {
     const dashboardContent = `
    +--------------------------------------------------------------------+
@@ -207,16 +206,16 @@ async function displayBusinessDashboard() {
    
    ■ ENTERPRISE PROJECT PORTFOLIO (STRATEGIC DELIVERABLES)
    ----------------------------------------------------------------------
-   1. COST OPTIMIZATION PROJECT 
+   1. COST OPTIMIZATION PROJECT (MALİYET OPTİMİZASYONU)
       - FOCUS: MARGIN ENHANCEMENTS, COST MODELING & PRICING ARCHITECTURE.
    
-   2. END-TO-END CUSTOMER EXPERIENCE 
+   2. END-TO-END CUSTOMER EXPERIENCE (UÇTAN UCA MÜŞTERİ DENEYİMİ)
       - FOCUS: TURQUALITY PROJECT - UX OPTIMIZATION & GLOBAL COMPLIANCE.
    
-   3. DIGITALIZATION IN SALES 
+   3. DIGITALIZATION IN SALES (SATIŞTA DİJİTALLEŞME)
       - FOCUS: TURQUALITY PROJECT - CRM INTEGRATION & RPA REQ. ANALYSIS.
    
-   4. CUSTOMER SEGMENTATION PROJECT 
+   4. CUSTOMER SEGMENTATION PROJECT (MÜŞTERİ SEGMENTASYONU)
       - FOCUS: DATA-DRIVEN TARGETING & QLIK SENSE BI DATA ANALYSIS.
    
    ■ PROFESSIONAL CAPABILITIES SUMMARY (CORE SKILLS)
@@ -236,7 +235,6 @@ async function displayBusinessDashboard() {
     consoleElement.classList.add('ascii-art');
     terminalOutput.appendChild(consoleElement);
 
-    // Yazı bloğu büyük olduğu için okuma hızını artırmak adına speed'i 2'ye düşürdüm.
     await typeWriter(dashboardContent, consoleElement, 2);
 
     await new Promise(resolve => setTimeout(resolve, 500));
@@ -249,7 +247,7 @@ async function displayBusinessDashboard() {
 function processCommand(command) {
     switch(command.toLowerCase()) {
         case 'help':
-            return 'AVAILABLE COMMANDS: about, education, skills, experience, dashboard, clear';
+            return 'AVAILABLE COMMANDS: about, education, skills, experience, dashboard, certifications, contact, cv, clear';
         case 'about':
             return 'BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, PRICING SYSTEMS, AND DIGITAL TRANSFORMATION PROJECTS.';
         case 'education':
@@ -261,6 +259,16 @@ function processCommand(command) {
         case 'dashboard':
             displayBusinessDashboard();
             return '';
+        case 'certifications':
+            return 'PROFESSIONAL CERTIFICATIONS & TRAINING:<br>- SAP ERP FUNCTIONAL KEY USER CORE TRAINING<br>- QLIK SENSE DATA ARCHITECTURE & ANALYTICS ADVANCED COURSE<br>- BUSINESS PROCESS ANALYSIS & SIMULATION MODELING CERTIFICATE';
+        case 'contact':
+            return 'CONTACT CHANNELS & LOCATION:<br>- LOCATION: ISTANBUL, TURKIYE<br>- EMAIL: <a href="mailto:barisumutaltun@outlook.com" target="_blank">barisumutaltun@outlook.com</a><br>- LINKEDIN: <a href="https://www.linkedin.com/in/barisumutaltun/" target="_blank">linkedin.com/in/barisumutaltun</a>';
+        case 'cv':
+            const link = document.createElement('a');
+            link.href = 'Baris_Umut_Altun_CV.pdf';
+            link.download = 'Baris_Umut_Altun_CV.pdf';
+            link.click();
+            return 'INITIALIZING RESUME DOWNLOAD SUB-ROUTINE... DONE.';
         case 'clear':
             terminalOutput.innerHTML = '';
             return '';
