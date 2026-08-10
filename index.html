@@ -4,9 +4,10 @@
 <meta charset="UTF-8">
 <title>Barış Umut Altun | IT Professional & Industrial Engineer</title>
 
-  <!-- SEÇTİĞİN İKON SATIRI BURAYA GELECEK -->
+<!-- BUA FAVICON -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23041607' stroke='%2333ff33' stroke-width='4'/><text x='6' y='42' font-family='monospace' font-size='26' font-weight='bold' fill='%2333ff33'>BUA</text></svg>">
-  
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <style>
 @import 'https://fonts.googleapis.com/css?family=Inconsolata';
 html, body {
@@ -76,15 +77,41 @@ body {
   }
 }
 
+/* TERMINAL & SCROLLBAR DÜZELTMELERİ */
 .terminal {
-  box-sizing: inherit;
+  box-sizing: border-box;
   position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
-  width: 1050px;
-  max-width: 100%;
+  width: 100%; /* Ekran genişliğinin tamamına yayılır */
   padding: 4rem;
   text-transform: uppercase;
   overflow-y: auto;
+}
+
+/* Okunabilirliği korumak için metin genişliği sınırı */
+.terminal > * {
+  max-width: 1050px;
+}
+
+/* RETRO MATRİS YEŞİLİ SCROLLBAR TASARIMI */
+.terminal::-webkit-scrollbar {
+  width: 10px;
+}
+
+.terminal::-webkit-scrollbar-track {
+  background: rgba(4, 22, 7, 0.6);
+}
+
+.terminal::-webkit-scrollbar-thumb {
+  background: #33ff33;
+  border-radius: 2px;
+  box-shadow: 0 0 5px #33ff33;
+}
+
+.terminal::-webkit-scrollbar-thumb:hover {
+  background: #11581E;
 }
 
 .output {
@@ -257,7 +284,6 @@ async function displayBusinessDashboard() {
     await typeWriter("Operational overview generated successfully. System stable.", finalMessage, 20);
 }
 
-// Türkçe klavye/karakter uyuşmazlıklarını çözen gelişmiş normalize fonksiyonu
 function normalizeCommand(cmd) {
     if (!cmd) return '';
     return cmd.trim()
