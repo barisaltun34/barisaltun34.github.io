@@ -142,17 +142,14 @@ a::after {
 }
 </style>
 
-<!-- ========================================== -->
-<!-- A KODU: GOOGLE ANALYTICS ALTYPISI (GA4)   -->
-<!-- ========================================== -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-M0CREXHDK0"></script>
+<!-- GOOGLE ANALYTICS (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  // G-XXXXXXXXXX yazan yeri kendi ölçüm kimliğinle değiştireceksin
-  gtag('config', 'G-M0CREXHDK0');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 </head>
 <body>
@@ -257,22 +254,35 @@ async function displayBusinessDashboard() {
     await typeWriter("Operational overview generated successfully. System stable.", finalMessage, 20);
 }
 
-// ==========================================
-<!-- B KODU: LOGLAMA VE TETIKLEYICI FONKS.  -->
-// ==========================================
+// Türkçe klavye/karakter uyuşmazlıklarını çözen gelişmiş normalize fonksiyonu
+function normalizeCommand(cmd) {
+    if (!cmd) return '';
+    return cmd.trim()
+        .replace(/İ/g, 'i')
+        .replace(/I/g, 'i')
+        .replace(/ı/g, 'i')
+        .replace(/Ğ/g, 'g').replace(/ğ/g, 'g')
+        .replace(/Ü/g, 'u').replace(/ü/g, 'u')
+        .replace(/Ş/g, 's').replace(/ş/g, 's')
+        .replace(/Ö/g, 'o').replace(/ö/g, 'o')
+        .replace(/Ç/g, 'c').replace(/ç/g, 'c')
+        .toLowerCase();
+}
+
 function processCommand(command) {
-    // Girilen bosluklari veya 'clear' komutunu analitigi kirletmesin diye filtreliyoruz
-    if (command.trim() !== '' && command.toLowerCase() !== 'clear') {
+    const cleanCommand = normalizeCommand(command);
+
+    if (cleanCommand !== '' && cleanCommand !== 'clear') {
         gtag('event', 'terminal_command', {
-            'command_value': command.toLowerCase()
+            'command_value': cleanCommand
         });
     }
 
-    switch(command.toLowerCase()) {
+    switch(cleanCommand) {
         case 'help':
             return 'AVAILABLE COMMANDS: about, education, skills, experience, dashboard, certifications, contact, cv, clear';
         case 'about':
-            return 'BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, PRICING SYSTEMS, AND DIGITAL TRANSFORMATION PROJECTS.';
+            return 'BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, AND DIGITAL TRANSFORMATION PROJECTS.';
         case 'education':
             return 'EDUCATION BACKGROUND:<br>- DOGUS UNIVERSITY: INDUSTRIAL ENGINEERING (B.Sc. - 100% SCHOLARSHIP)<br>- AKDENIZ UNIVERSITY: COMPUTER PROGRAMMING (A.A.S.)';
         case 'skills':
