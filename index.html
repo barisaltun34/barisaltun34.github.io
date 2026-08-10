@@ -230,16 +230,17 @@ const subtitleText = document.getElementById('subtitle-text');
 const helpText = document.getElementById('help-text');
 
 let currentLang = 'en';
+let historyLog = []; // Terminal geçmişini tutar
 
 const translations = {
     en: {
         subtitle: "IT PROFESSIONAL & INDUSTRIAL ENGINEER | INTERACTIVE PORTFOLIO",
         helpBanner: "FOR COMMAND LIST TYPE 'HELP' AND PRESS ENTER.",
         help: "AVAILABLE COMMANDS: about, education, skills, experience, dashboard, certifications, contact, cv, clear",
-        about: "BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, AND DIGITAL TRANSFORMATION PROJECTS.",
+        about: "BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER WHO OPTIMIZES COMMERCIAL OPERATIONS BY MANAGING PRICING ARCHITECTURE, COST MODELING, AND PROFITABILITY ANALYTICS IN SAP, ACTING AS A BUSINESS ANALYST BETWEEN SALES AND MARKETING TEAMS THROUGH CRM AND DIGITAL SALES INITIATIVES.",
         education: "EDUCATION BACKGROUND:<br>- DOGUS UNIVERSITY: INDUSTRIAL ENGINEERING (B.Sc. - 100% SCHOLARSHIP)<br>- AKDENIZ UNIVERSITY: COMPUTER PROGRAMMING (A.A.S.)",
-        skills: "CORE COMPETENCIES:<br>- DATA & BI: SAP ERP, QLIK SENSE, PYTHON, DATA SCIENCE, PROCESS SIMULATION<br>- STRATEGY: COMMERCIAL ANALYSIS, PRICING & COST MANAGEMENT, REVENUE OPTIMIZATION, BUDGET PLANNING<br>- BRIDGE ROLE: BUSINESS-IT ALIGNMENT, DIGITAL SALES PROCESSES, REQ. TRANSLATION FOR RPA/CRM",
-        experience: "PROFESSIONAL SUMMARY:<br>- SENIOR BUSINESS DEVELOPMENT SPECIALIST (2022 - PRESENT): MANAGING PRICING ARCHITECTURE, REVENUE ANALYSIS, AND BRIDGING THE GAP BETWEEN COMMERCIAL TEAMS AND IT DEPARTMENTS AS A KEY USER.<br>- PLANNING & OPTIMIZATION ENGINEER (2020 - 2022): WORKFORCE MANAGEMENT, SYSTEM MONITORING, KPI EVALUATION, AND PERFORMANCE REPORTING.",
+        skills: "CORE COMPETENCIES:<br>- DATA & BI: SAP ERP, QLIK SENSE, PYTHON, DATA SCIENCE, PROCESS SIMULATION<br>- STRATEGY: COMMERCIAL ANALYSIS, PRICING & COST MANAGEMENT, REVENUE OPTIMIZATION, BUDGET PLANNING<br>- BUSINESS ANALYSIS: BUSINESS-IT ALIGNMENT, DIGITAL SALES PROCESSES, REQ. TRANSLATION FOR RPA/CRM",
+        experience: "PROFESSIONAL SUMMARY:<br>- SENIOR BUSINESS DEVELOPMENT SPECIALIST (2022 - PRESENT): I OPTIMIZE SALES AND MARKETING OPERATIONS THROUGH SAP-BASED PRICING ARCHITECTURE, COST-PROFITABILITY ANALYTICS, AND DATA-DRIVEN DIGITAL SALES INITIATIVES.<br>- PLANNING & OPTIMIZATION ENGINEER (2020 - 2022): WORKFORCE MANAGEMENT, SYSTEM MONITORING, KPI EVALUATION, AND PERFORMANCE REPORTING.",
         certifications: "PROFESSIONAL CERTIFICATIONS & TRAINING:<br>- SAP ERP FUNCTIONAL KEY USER CORE TRAINING<br>- QLIK SENSE DATA ARCHITECTURE & ANALYTICS ADVANCED COURSE<br>- BUSINESS PROCESS ANALYSIS & SIMULATION MODELING CERTIFICATE",
         contact: "CONTACT CHANNELS & LOCATION:<br>- LOCATION: ISTANBUL, TURKIYE<br>- EMAIL: <a href='mailto:barisumutaltun@outlook.com' target='_blank'>barisumutaltun@outlook.com</a><br>- LINKEDIN: <a href='https://www.linkedin.com/in/barisumutaltun/' target='_blank'>linkedin.com/in/barisumutaltun</a>",
         cv: "INITIALIZING RESUME DOWNLOAD SUB-ROUTINE... DONE.",
@@ -252,13 +253,13 @@ const translations = {
         ]
     },
     tr: {
-        subtitle: "BİLİŞİM UZMANI & ENDÜSTRİ MÜHENDİSİ | İNTERAKTİF PORTFOLYO",
+        subtitle: "HEM BİLİŞİMCİ HEM ENDÜSTRİ MÜHENDİSİ",
         helpBanner: "KOMUT LİSTESİ İÇİN 'YARDIM' YAZIP ENTER'A BASIN.",
         help: "KULLANILABİLİR KOMUTLAR: hakkimda, egitim, yetenekler, deneyim, dashboard, sertifikalar, iletisim, cv, temizle",
-        about: "BARIŞ UMUT ALTUN, İŞ GELİŞTİRME, STRATEJİK RAPORLAMA VE DİJİTAL DÖNÜŞÜM PROJELERİNDE 5+ YIL DENEYİME SAHİP BİR ENDÜSTRİ MÜHENDİSİ VE BİLGİSAYAR PROGRAMCISIDIR.",
+        about: "BARIŞ UMUT ALTUN; SAP SİSTEMİNDE FİYATLANDIRMA MİMARİSİ, MALİYET VE KÂRLILIK ANALİZLERİNİ YÖNETEREK TİCARİ OPERASYONLARI OPTİMİZE EDEN, CRM VE DİJİTAL SATIŞ PROJELERİYLE SATIŞ-PAZARLAMA EKİPLERİ ARASINDA VERİYE DAYALI STRATEJİK İŞ ANALİSTLİĞİ YAPAN BİR ENDÜSTRİ MÜHENDİSİDİR.",
         education: "EĞİTİM GEÇMİŞİ:<br>- DOĞUŞ ÜNİVERSİTESİ: ENDÜSTRİ MÜHENDİSLİĞİ (LİSANS - %100 BURS)<br>- AKDENİZ ÜNİVERSİTESİ: BİLGİSAYAR PROGRAMCILIĞI (ÖNLİSANS)",
-        skills: "TEMEL YETKİNLİKLER:<br>- VERİ & BI: SAP ERP, QLIK SENSE, PYTHON, VERİ BİLİMİ, SÜREÇ SİMÜLASYONU<br>- STRATEJİ: TİCARİ ANALİZ, FİYATLANDIRMA VE MALİYET YÖNETİMİ, GELİR OPTİMİZASYONU, BÜTÇE PLANLAMA<br>- KÖPRÜ ROLÜ: İŞ-IT UYUMU, DİJİTAL SATIŞ SÜREÇLERİ, RPA/CRM İÇİN GEREKSİNİM ANALİZİ",
-        experience: "MESLEKİ ÖZET:<br>- KIDEMLİ İŞ GELİŞTİRME UZMANI (2022 - HALEN): FİYATLANDIRMA MİMARİSİ, GELİR ANALİZİ VE TİCARİ EKİPLER İLE IT DEPARTMANI ARASINDA KEY USER OLARAK KÖPRÜ GÖREVİ.<br>- PLANLAMA VE OPTİMİZASYON MÜHENDİSİ (2020 - 2022): İŞGÜCÜ YÖNETİMİ, SİSTEM İZLEME, KPI DEĞERLENDİRME VE PERFORMANS RAPORLAMA.",
+        skills: "TEMEL YETKİNLİKLER:<br>- VERİ & BI: SAP ERP, QLIK SENSE, PYTHON, VERİ BİLİMİ, SÜREÇ SİMÜLASYONU<br>- STRATEJİ: TİCARİ ANALİZ, FİYATLANDIRMA VE MALİYET YÖNETİMİ, GELİR OPTİMİZASYONU, BÜTÇE PLANLAMA<br>- İŞ ANALİSTLİĞİ: İŞ-IT UYUMU, DİJİTAL SATIŞ SÜREÇLERİ, RPA/CRM İÇİN GEREKSİNİM ANALİZİ",
+        experience: "MESLEKİ ÖZET:<br>- KIDEMLİ İŞ GELİŞTİRME UZMANI (2022 - HALEN): SAP TABANLI FİYATLANDIRMA KURGUSU, KÂRLILIK/MALİYET ANALİZLERİ VE DİJİTAL SATIŞ SÜREÇLERİNİ YÖNETEREK PAZARLAMA VE SATIŞ OPERASYONLARINI VERİYE DAYALI STRATEJİLERLE OPTİMİZE EDİYORUM.<br>- PLANLAMA VE OPTİMİZASYON MÜHENDİSİ (2020 - 2022): İŞGÜCÜ YÖNETİMİ, SİSTEM İZLEME, KPI DEĞERLENDİRME VE PERFORMANS RAPORLAMA.",
         certifications: "SERTİFİKALAR VE EĞİTİMLER:<br>- SAP ERP FONKSİYONEL KEY USER TEMEL EĞİTİMİ<br>- QLIK SENSE VERİ MİMARİSİ VE ANALİTİK İLERİ DÜZEY KURSU<br>- İŞ SÜREÇLERİ ANALİZİ VE SİMÜLASYON MODELLEME SERTİFİKASI",
         contact: "İLETİŞİM BİLGİLERİ VE LOKASYON:<br>- LOKASYON: İSTANBUL, TÜRKİYE<br>- E-POSTA: <a href='mailto:barisumutaltun@outlook.com' target='_blank'>barisumutaltun@outlook.com</a><br>- LINKEDIN: <a href='https://www.linkedin.com/in/barisumutaltun/' target='_blank'>linkedin.com/in/barisumutaltun</a>",
         cv: "ÖZGEÇMİŞ İNDİRME ALT RUTİNİ BAŞLATILIYOR... TAMAMLANDI.",
@@ -272,16 +273,85 @@ const translations = {
     }
 };
 
+function getDashboardContent(isTr) {
+    if (isTr) {
+        return `
+   +--------------------------------------------------------------------+
+   |               ÜST DÜZEY PERFORMANS GÖSTERGE PANOLARI               |
+   +--------------------------------------------------------------------+
+   
+   ■ KURUMSAL PROJE PORTFÖYÜ (STRATEJİK ÇIKTILAR)
+   ----------------------------------------------------------------------
+   1. MALİYET OPTİMİZASYONU PROJESİ
+      - ODAK: MARJ İYİLEŞTİRME, MALİYET MODELLEME VE FİYATLANDIRMA MİMARİSİ.
+   
+   2. UÇTAN UCA MÜŞTERİ DENEYİMİ
+      - ODAK: TURQUALITY PROJESİ - KULLANICI DENEYİMİ OPTİMİZASYONU VE KÜRESEL UYUM.
+   
+   3. SATIŞTA DİJİTALLEŞME
+      - ODAK: TURQUALITY PROJESİ - CRM ENTEGRASYONU VE RPA GEREKSİNİM ANALİZİ.
+   
+   4. MÜŞTERİ SEGMENTASYONU PROJESİ
+      - ODAK: VERİ ODAKLI HEDEFLEME VE QLIK SENSE BI VERİ ANALİZİ.
+   
+   ■ MESLEKİ YETKİNLİK ÖZETİ (TEMEL BECERİLER)
+   ----------------------------------------------------------------------
+   - UZMANLIK GEÇMİŞİ  : ENDÜSTRİ MÜHENDİSLİĞİ + BİLGİSAYAR PROGRAMCILIĞI
+   - SİSTEM MİMARİSİ   : SAP ERP (KEY USER), QLIK SENSE BI, CRM
+   - İŞ ANALİSTLİĞİ    : İŞ-IT UYUMU VE TEKNİK UYARLAMA
+   - TİCARİ MOTOR      : FİYATLANDIRMA SİSTEMLERİ, KPI YÖNETİMİ VE BÜTÇELEME
+   
+   ■ OPERASYONEL SÜREÇ MATRİSİ
+   ----------------------------------------------------------------------
+   [✓] GELİR VE KÂRLILIK ANALİZİ           [✓] YILLIK SATIŞ BÜTÇELEME
+   [✓] SATIŞ PRİMİ / KPI MANTIĞI           [✓] TİCARİ KAÇAK KONTROLÜ
+   +--------------------------------------------------------------------+`;
+    } else {
+        return `
+   +--------------------------------------------------------------------+
+   |                   EXECUTIVE PERFORMANCE DASHBOARD                  |
+   +--------------------------------------------------------------------+
+   
+   ■ ENTERPRISE PROJECT PORTFOLIO (STRATEGIC DELIVERABLES)
+   ----------------------------------------------------------------------
+   1. COST OPTIMIZATION PROJECT
+      - FOCUS: MARGIN ENHANCEMENTS, COST MODELING & PRICING ARCHITECTURE.
+   
+   2. END-TO-END CUSTOMER EXPERIENCE
+      - FOCUS: TURQUALITY PROJECT - UX OPTIMIZATION & GLOBAL COMPLIANCE.
+   
+   3. DIGITALIZATION IN SALES
+      - FOCUS: TURQUALITY PROJECT - CRM INTEGRATION & RPA REQ. ANALYSIS.
+   
+   4. CUSTOMER SEGMENTATION PROJECT
+      - FOCUS: DATA-DRIVEN TARGETING & QLIK SENSE BI DATA ANALYSIS.
+   
+   ■ PROFESSIONAL CAPABILITIES SUMMARY (CORE SKILLS)
+   ----------------------------------------------------------------------
+   - DOMAIN BACKGROUND : INDUSTRIAL ENGINEERING + COMPUTER PROGRAMMING
+   - SYSTEMS ARCHITYPE : SAP ERP (KEY USER), QLIK SENSE BI, CRM
+   - BUSINESS ANALYSIS : BUSINESS-IT ALIGNMENT & TECHNICAL INTERPRETATION
+   - COMMERCIAL ENGINE : PRICING SYSTEMS, KPI MANAGEMENT & BUDGETING
+   
+   ■ OPERATIONAL PROCESS MATRIX
+   ----------------------------------------------------------------------
+   [✓] REVENUE & PROFITABILITY ANALYSIS   [✓] ANNUAL SALES BUDGETING
+   [✓] SALES COMMISSIONS / KPI LOGIC      [✓] COMMERCIAL LEAKAGE CONTROL
+   +--------------------------------------------------------------------+`;
+    }
+}
+
 function setLanguage(lang) {
     currentLang = lang;
     
-    // Buton görünümlerini güncelle
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
     
-    // Arayüz sabit yazılarını güncelle
     subtitleText.innerHTML = translations[lang].subtitle;
     helpText.innerHTML = translations[lang].helpBanner;
+
+    // Tüm terminal geçmişini seçilen yeni dille anında yeniden oluştur
+    reRenderHistory();
 }
 
 function addOutput(text) {
@@ -292,18 +362,6 @@ function addOutput(text) {
     terminal.scrollTop = terminal.scrollHeight;
 }
 
-let lastResponseIndex = -1;
-function getRandomFunnyResponse() {
-    const list = translations[currentLang].funny;
-    let newIndex;
-    do {
-        newIndex = Math.floor(Math.random() * list.length);
-    } while (newIndex === lastResponseIndex && list.length > 1);
-    
-    lastResponseIndex = newIndex;
-    return list[newIndex];
-}
-
 async function typeWriter(text, element, speed = 2) {
     for (let i = 0; i < text.length; i++) {
         element.innerHTML += text.charAt(i);
@@ -312,39 +370,9 @@ async function typeWriter(text, element, speed = 2) {
     }
 }
 
-async function displayBusinessDashboard() {
+async function displayBusinessDashboardAnimated() {
     const isTr = currentLang === 'tr';
-    const dashboardContent = `
-   +--------------------------------------------------------------------+
-   |               ${isTr ? 'ÜST DÜZEY PERFORMANS GÖSTERGE PANOLARI' : '    EXECUTIVE PERFORMANCE DASHBOARD         '}               |
-   +--------------------------------------------------------------------+
-   
-   ■ ${isTr ? 'KURUMSAL PROJE PORTFÖYÜ (STRATEJİK ÇIKTILAR)' : 'ENTERPRISE PROJECT PORTFOLIO (STRATEGIC DELIVERABLES)'}
-   ----------------------------------------------------------------------
-   1. COST OPTIMIZATION PROJECT (${isTr ? 'MALİYET OPTİMİZASYONU' : 'COST OPTIMIZATION'})
-      - FOCUS: MARGIN ENHANCEMENTS, COST MODELING & PRICING ARCHITECTURE.
-   
-   2. END-TO-END CUSTOMER EXPERIENCE (${isTr ? 'UÇTAN UCA MÜŞTERİ DENEYİMİ' : 'CUSTOMER EXPERIENCE'})
-      - FOCUS: TURQUALITY PROJECT - UX OPTIMIZATION & GLOBAL COMPLIANCE.
-   
-   3. DIGITALIZATION IN SALES (${isTr ? 'SATIŞTA DİJİTALLEŞME' : 'DIGITAL SALES'})
-      - FOCUS: TURQUALITY PROJECT - CRM INTEGRATION & RPA REQ. ANALYSIS.
-   
-   4. CUSTOMER SEGMENTATION PROJECT (${isTr ? 'MÜŞTERİ SEGMENTASYONU' : 'CUSTOMER SEGMENTATION'})
-      - FOCUS: DATA-DRIVEN TARGETING & QLIK SENSE BI DATA ANALYSIS.
-   
-   ■ ${isTr ? 'MESLEKİ YETKİNLİK ÖZETİ (TEMEL BECERİLER)' : 'PROFESSIONAL CAPABILITIES SUMMARY (CORE SKILLS)'}
-   ----------------------------------------------------------------------
-   - DOMAIN BACKGROUND : INDUSTRIAL ENGINEERING + COMPUTER PROGRAMMING
-   - SYSTEMS ARCHITYPE : SAP ERP (KEY USER), QLIK SENSE BI, CRM
-   - THE BRIDGE ROLE   : BUSINESS-IT ALIGNMENT & TECHNICAL INTERPRETATION
-   - COMMERCIAL ENGINE : PRICING SYSTEMS, KPI MANAGEMENT & BUDGETING
-   
-   ■ ${isTr ? 'OPERASYONEL SÜREÇ MATRİSİ' : 'OPERATIONAL PROCESS MATRIX'}
-   ----------------------------------------------------------------------
-   [✓] REVENUE & PROFITABILITY ANALYSIS   [✓] ANNUAL SALES BUDGETING
-   [✓] SALES COMMISSIONS/KPI LOGIC        [✓] COMMERCIAL LEAKAGE CONTROL
-   +--------------------------------------------------------------------+`;
+    const dashboardContent = getDashboardContent(isTr);
 
     const consoleElement = document.createElement('div');
     consoleElement.classList.add('ascii-art');
@@ -352,11 +380,26 @@ async function displayBusinessDashboard() {
 
     await typeWriter(dashboardContent, consoleElement, 2);
 
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise(resolve => setTimeout(resolve, 300));
     const finalMessage = document.createElement('p');
     finalMessage.classList.add('output');
     terminalOutput.appendChild(finalMessage);
-    await typeWriter(isTr ? "Operasyonel özet başarıyla oluşturuldu. Sistem kararlı." : "Operational overview generated successfully. System stable.", finalMessage, 20);
+    await typeWriter(isTr ? "Operasyonel özet başarıyla oluşturuldu. Sistem kararlı." : "Operational overview generated successfully. System stable.", finalMessage, 15);
+}
+
+function renderDashboardSync() {
+    const isTr = currentLang === 'tr';
+    const dashboardContent = getDashboardContent(isTr);
+
+    const consoleElement = document.createElement('div');
+    consoleElement.classList.add('ascii-art');
+    consoleElement.innerHTML = dashboardContent;
+    terminalOutput.appendChild(consoleElement);
+
+    const finalMessage = document.createElement('p');
+    finalMessage.classList.add('output');
+    finalMessage.innerHTML = isTr ? "Operasyonel özet başarıyla oluşturuldu. Sistem kararlı." : "Operational overview generated successfully. System stable.";
+    terminalOutput.appendChild(finalMessage);
 }
 
 function normalizeCommand(cmd) {
@@ -373,18 +416,10 @@ function normalizeCommand(cmd) {
         .toLowerCase();
 }
 
-function processCommand(command) {
+function processCommandInternal(command, forcedFunnyIndex = -1) {
     const cleanCommand = normalizeCommand(command);
-
-    if (cleanCommand !== '' && cleanCommand !== 'clear' && cleanCommand !== 'temizle') {
-        gtag('event', 'terminal_command', {
-            'command_value': cleanCommand
-        });
-    }
-
     const t = translations[currentLang];
 
-    // TR VE ENG DİLİNDEKİ TÜM KOMUT EŞLEŞTİRMELERİ
     let action = '';
     if (['help', 'yardim'].includes(cleanCommand)) action = 'help';
     else if (['about', 'hakkimda', 'hakkinda'].includes(cleanCommand)) action = 'about';
@@ -397,45 +432,82 @@ function processCommand(command) {
     else if (['cv', 'ozgecmis'].includes(cleanCommand)) action = 'cv';
     else if (['clear', 'temizle'].includes(cleanCommand)) action = 'clear';
 
-    switch(action) {
-        case 'help':
-            return t.help;
-        case 'about':
-            return t.about;
-        case 'education':
-            return t.education;
-        case 'skills':
-            return t.skills;
-        case 'experience':
-            return t.experience;
-        case 'dashboard':
-            displayBusinessDashboard();
-            return '';
-        case 'certifications':
-            return t.certifications;
-        case 'contact':
-            return t.contact;
-        case 'cv':
-            const link = document.createElement('a');
-            link.href = 'Baris_Umut_Altun_CV.pdf';
-            link.download = 'Baris_Umut_Altun_CV.pdf';
-            link.click();
-            return t.cv;
-        case 'clear':
-            terminalOutput.innerHTML = '';
-            return '';
-        default:
-            return getRandomFunnyResponse();
+    if (action === 'clear') {
+        return { action: 'clear', text: '' };
     }
+
+    if (action === 'dashboard') {
+        return { action: 'dashboard', text: '' };
+    }
+
+    if (action && t[action]) {
+        return { action: action, text: t[action] };
+    }
+
+    // Geçersiz komut durumu
+    let funnyIdx = forcedFunnyIndex;
+    if (funnyIdx === -1 || funnyIdx >= t.funny.length) {
+        funnyIdx = Math.floor(Math.random() * t.funny.length);
+    }
+    return { action: 'funny', text: t.funny[funnyIdx], funnyIndex: funnyIdx };
+}
+
+function reRenderHistory() {
+    terminalOutput.innerHTML = '';
+    for (const item of historyLog) {
+        // Komut satırını yaz
+        const promptLine = document.createElement('p');
+        promptLine.classList.add('output');
+        promptLine.innerHTML = `$ ${item.command}`;
+        terminalOutput.appendChild(promptLine);
+
+        // Çıktıyı mevcut dilde hesapla ve ekle
+        const res = processCommandInternal(item.command, item.funnyIndex);
+        if (res.action === 'dashboard') {
+            renderDashboardSync();
+        } else if (res.text) {
+            const p = document.createElement('p');
+            p.classList.add('output');
+            p.innerHTML = res.text;
+            terminalOutput.appendChild(p);
+        }
+    }
+    terminal.scrollTop = terminal.scrollHeight;
 }
 
 input.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         const command = this.value;
-        addOutput(`$ ${command}`);
-        
-        const output = processCommand(command);
-        if (output) addOutput(output);
+        if (!command.trim()) return;
+
+        const cleanCmd = normalizeCommand(command);
+
+        if (cleanCmd !== 'clear' && cleanCmd !== 'temizle') {
+            gtag('event', 'terminal_command', { 'command_value': cleanCmd });
+        }
+
+        const res = processCommandInternal(command);
+
+        if (res.action === 'clear') {
+            historyLog = [];
+            terminalOutput.innerHTML = '';
+        } else {
+            historyLog.push({ command: command, funnyIndex: res.funnyIndex !== undefined ? res.funnyIndex : -1 });
+            
+            addOutput(`$ ${command}`);
+
+            if (res.action === 'dashboard') {
+                displayBusinessDashboardAnimated();
+            } else if (res.text) {
+                if (res.action === 'cv') {
+                    const link = document.createElement('a');
+                    link.href = 'Baris_Umut_Altun_CV.pdf';
+                    link.download = 'Baris_Umut_Altun_CV.pdf';
+                    link.click();
+                }
+                addOutput(res.text);
+            }
+        }
 
         this.value = '';
     }
