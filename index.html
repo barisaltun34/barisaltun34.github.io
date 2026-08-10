@@ -69,33 +69,58 @@ body {
 }
 
 @keyframes scan {
-  0% {
-    background-position: 0 -100vh;
-  }
-  35%, 100% {
-    background-position: 0 100vh;
-  }
+  0% { background-position: 0 -100vh; }
+  35%, 100% { background-position: 0 100vh; }
 }
 
-/* TERMINAL & SCROLLBAR DÜZELTMELERİ */
+/* SAĞ ÜST DİL BUTONLARI */
+.lang-switch {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  z-index: 999;
+  display: flex;
+  gap: 10px;
+}
+
+.lang-btn {
+  background: rgba(4, 22, 7, 0.8);
+  border: 1px solid #33ff33;
+  color: #33ff33;
+  padding: 6px 14px;
+  font-family: "Inconsolata", monospace;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  text-shadow: 0 0 1ex #33ff33;
+  transition: all 0.2s ease;
+}
+
+.lang-btn.active, .lang-btn:hover {
+  background: #33ff33;
+  color: #000000;
+  box-shadow: 0 0 10px #33ff33;
+  text-shadow: none;
+}
+
+/* TERMINAL & SCROLLBAR */
 .terminal {
   box-sizing: border-box;
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
-  width: 100%; /* Ekran genişliğinin tamamına yayılır */
+  width: 100%;
   padding: 4rem;
   text-transform: uppercase;
   overflow-y: auto;
 }
 
-/* Okunabilirliği korumak için metin genişliği sınırı */
 .terminal > * {
   max-width: 1050px;
 }
 
-/* RETRO MATRİS YEŞİLİ SCROLLBAR TASARIMI */
 .terminal::-webkit-scrollbar {
   width: 10px;
 }
@@ -128,17 +153,10 @@ a {
   text-decoration: none;
 }
 
-a::before {
-  content: "[";
-}
+a::before { content: "["; }
+a::after { content: "]"; }
 
-a::after {
-  content: "]";
-}
-
-.errorcode {
-  color: white;
-}
+.errorcode { color: white; }
 
 #input-line {
   display: flex;
@@ -185,10 +203,17 @@ a::after {
 <body>
 <div class="noise"></div>
 <div class="overlay"></div>
+
+<!-- SAĞ ÜST DİL BUTONLARI -->
+<div class="lang-switch">
+  <button class="lang-btn active" id="btn-en" onclick="setLanguage('en')">🇬🇧 EN</button>
+  <button class="lang-btn" id="btn-tr" onclick="setLanguage('tr')">🇹🇷 TR</button>
+</div>
+
 <div class="terminal">
   <h1>Barış Umut <span class="errorcode">Altun</span></h1>
-  <p class="output">IT PROFESSIONAL & INDUSTRIAL ENGINEER | INTERACTIVE PORTFOLIO</p>
-  <p class="output">KOMUT LISTESI ICIN 'HELP' YAZIP ENTER'A BASIN.</p>
+  <p class="output" id="subtitle-text">IT PROFESSIONAL & INDUSTRIAL ENGINEER | INTERACTIVE PORTFOLIO</p>
+  <p class="output" id="help-text">FOR COMMAND LIST TYPE 'HELP' AND PRESS ENTER.</p>
   <div id="terminal-output"></div>
   <div id="input-line">
     <span id="prompt">B_ALTUN_SERVER$</span>
@@ -201,6 +226,68 @@ const terminalOutput = document.getElementById('terminal-output');
 const input = document.getElementById('input');
 const prompt = document.getElementById('prompt');
 const terminal = document.querySelector('.terminal');
+const subtitleText = document.getElementById('subtitle-text');
+const helpText = document.getElementById('help-text');
+
+let currentLang = 'en';
+
+const translations = {
+    en: {
+        subtitle: "IT PROFESSIONAL & INDUSTRIAL ENGINEER | INTERACTIVE PORTFOLIO",
+        helpBanner: "FOR COMMAND LIST TYPE 'HELP' AND PRESS ENTER.",
+        langChanged: "SYSTEM LANGUAGE SET TO ENGLISH.",
+        help: "AVAILABLE COMMANDS: about, education, skills, experience, dashboard, certifications, contact, cv, clear",
+        about: "BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, AND DIGITAL TRANSFORMATION PROJECTS.",
+        education: "EDUCATION BACKGROUND:<br>- DOGUS UNIVERSITY: INDUSTRIAL ENGINEERING (B.Sc. - 100% SCHOLARSHIP)<br>- AKDENIZ UNIVERSITY: COMPUTER PROGRAMMING (A.A.S.)",
+        skills: "CORE COMPETENCIES:<br>- DATA & BI: SAP ERP, QLIK SENSE, PYTHON, DATA SCIENCE, PROCESS SIMULATION<br>- STRATEGY: COMMERCIAL ANALYSIS, PRICING & COST MANAGEMENT, REVENUE OPTIMIZATION, BUDGET PLANNING<br>- BRIDGE ROLE: BUSINESS-IT ALIGNMENT, DIGITAL SALES PROCESSES, REQ. TRANSLATION FOR RPA/CRM",
+        experience: "PROFESSIONAL SUMMARY:<br>- SENIOR BUSINESS DEVELOPMENT SPECIALIST (2022 - PRESENT): MANAGING PRICING ARCHITECTURE, REVENUE ANALYSIS, AND BRIDGING THE GAP BETWEEN COMMERCIAL TEAMS AND IT DEPARTMENTS AS A KEY USER.<br>- PLANNING & OPTIMIZATION ENGINEER (2020 - 2022): WORKFORCE MANAGEMENT, SYSTEM MONITORING, KPI EVALUATION, AND PERFORMANCE REPORTING.",
+        certifications: "PROFESSIONAL CERTIFICATIONS & TRAINING:<br>- SAP ERP FUNCTIONAL KEY USER CORE TRAINING<br>- QLIK SENSE DATA ARCHITECTURE & ANALYTICS ADVANCED COURSE<br>- BUSINESS PROCESS ANALYSIS & SIMULATION MODELING CERTIFICATE",
+        contact: "CONTACT CHANNELS & LOCATION:<br>- LOCATION: ISTANBUL, TURKIYE<br>- EMAIL: <a href='mailto:barisumutaltun@outlook.com' target='_blank'>barisumutaltun@outlook.com</a><br>- LINKEDIN: <a href='https://www.linkedin.com/in/barisumutaltun/' target='_blank'>linkedin.com/in/barisumutaltun</a>",
+        cv: "INITIALIZING RESUME DOWNLOAD SUB-ROUTINE... DONE.",
+        funny: [
+            "Command not recognized. Did you budget for this command?",
+            "Error 404: Market anomaly detected. Try a valid command.",
+            "Data pipeline busy. Please stick to the official menu.",
+            "Optimization error: Insufficient data variables for this query.",
+            "Access granted, but command invalid. Type 'help' for corporate clearance."
+        ]
+    },
+    tr: {
+        subtitle: "BİLİŞİM UZMANI & ENDÜSTRİ MÜHENDİSİ | İNTERAKTİF PORTFOLYO",
+        helpBanner: "KOMUT LİSTESİ İÇİN 'HELP' YAZIP ENTER'A BASIN.",
+        langChanged: "SİSTEM DİLİ TÜRKÇE OLARAK AYARLANDI.",
+        help: "KULLANILABİLİR KOMUTLAR: about, education, skills, experience, dashboard, certifications, contact, cv, clear",
+        about: "BARIŞ UMUT ALTUN, İŞ GELİŞTİRME, STRATEJİK RAPORLAMA VE DİJİTAL DÖNÜŞÜM PROJELERİNDE 5+ YIL DENEYİME SAHİP BİR ENDÜSTRİ MÜHENDİSİ VE BİLGİSAYAR PROGRAMCISIDIR.",
+        education: "EĞİTİM GEÇMİŞİ:<br>- DOĞUŞ ÜNİVERSİTESİ: ENDÜSTRİ MÜHENDİSLİĞİ (LİSANS - %100 BURS)<br>- AKDENİZ ÜNİVERSİTESİ: BİLGİSAYAR PROGRAMCILIĞI (ÖNLİSANS)",
+        skills: "TEMEL YETKİNLİKLER:<br>- VERİ & BI: SAP ERP, QLIK SENSE, PYTHON, VERİ BİLİMİ, SÜREÇ SİMÜLASYONU<br>- STRATEJİ: TİCARİ ANALİZ, FİYATLANDIRMA VE MALİYET YÖNETİMİ, GELİR OPTİMİZASYONU, BÜTÇE PLANLAMA<br>- KÖPRÜ ROLÜ: İŞ-IT UYUMU, DİJİTAL SATIŞ SÜREÇLERİ, RPA/CRM İÇİN GEREKSİNİM ANALİZİ",
+        experience: "MESLEKİ ÖZET:<br>- KIDEMLİ İŞ GELİŞTİRME UZMANI (2022 - HALEN): FİYATLANDIRMA MİMARİSİ, GELİR ANALİZİ VE TİCARİ EKİPLER İLE IT DEPARTMANI ARASINDA KEY USER OLARAK KÖPRÜ GÖREVİ.<br>- PLANLAMA VE OPTİMİZASYON MÜHENDİSİ (2020 - 2022): İŞGÜCÜ YÖNETİMİ, SİSTEM İZLEME, KPI DEĞERLENDİRME VE PERFORMANS RAPORLAMA.",
+        certifications: "SERTİFİKALAR VE EĞİTİMLER:<br>- SAP ERP FONKSİYONEL KEY USER TEMEL EĞİTİMİ<br>- QLIK SENSE VERİ MİMARİSİ VE ANALİTİK İLERİ DÜZEY KURSU<br>- İŞ SÜREÇLERİ ANALİZİ VE SİMÜLASYON MODELLEME SERTİFİKASI",
+        contact: "İLETİŞİM BİLGİLERİ VE LOKASYON:<br>- LOKASYON: İSTANBUL, TÜRKİYE<br>- E-POSTA: <a href='mailto:barisumutaltun@outlook.com' target='_blank'>barisumutaltun@outlook.com</a><br>- LINKEDIN: <a href='https://www.linkedin.com/in/barisumutaltun/' target='_blank'>linkedin.com/in/barisumutaltun</a>",
+        cv: "ÖZGEÇMİŞ İNDİRME ALT RUTİNİ BAŞLATILIYOR... TAMAMLANDI.",
+        funny: [
+            "Komut anlaşılamadı. Bu komut için bütçe ayrıldı mı?",
+            "Hata 404: Pazar sapması tespit edildi. Geçerli bir komut deneyin.",
+            "Veri hattı meşgul. Lütfen resmi menüye bağlı kalın.",
+            "Optimizasyon hatası: Bu sorgu için yetersiz veri değişkeni.",
+            "Erişim onaylandı ancak komut geçersiz. Kurumsal onay için 'help' yazın."
+        ]
+    }
+};
+
+function setLanguage(lang) {
+    currentLang = lang;
+    
+    // Buton görünümlerini güncelle
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-tr').classList.toggle('active', lang === 'tr');
+    
+    // Arayüz sabit yazılarını güncelle
+    subtitleText.innerHTML = translations[lang].subtitle;
+    helpText.innerHTML = translations[lang].helpBanner;
+    
+    // Geçiş bilgisini terminale yazdır
+    addOutput(translations[lang].langChanged);
+}
 
 function addOutput(text) {
     const p = document.createElement('p');
@@ -210,24 +297,16 @@ function addOutput(text) {
     terminal.scrollTop = terminal.scrollHeight;
 }
 
-const funnyResponses = [
-    "Command not recognized. Did you budget for this command?",
-    "Error 404: Market anomaly detected. Try a valid command.",
-    "Data pipeline busy. Please stick to the official menu.",
-    "Optimization error: Insufficient data variables for this query.",
-    "Access granted, but command invalid. Type 'help' for corporate clearance.",
-];
-
 let lastResponseIndex = -1;
-
 function getRandomFunnyResponse() {
+    const list = translations[currentLang].funny;
     let newIndex;
     do {
-        newIndex = Math.floor(Math.random() * funnyResponses.length);
-    } while (newIndex === lastResponseIndex && funnyResponses.length > 1);
+        newIndex = Math.floor(Math.random() * list.length);
+    } while (newIndex === lastResponseIndex && list.length > 1);
     
     lastResponseIndex = newIndex;
-    return funnyResponses[newIndex];
+    return list[newIndex];
 }
 
 async function typeWriter(text, element, speed = 2) {
@@ -239,33 +318,34 @@ async function typeWriter(text, element, speed = 2) {
 }
 
 async function displayBusinessDashboard() {
+    const isTr = currentLang === 'tr';
     const dashboardContent = `
    +--------------------------------------------------------------------+
-   |                   EXECUTIVE PERFORMANCE DASHBOARD                  |
+   |               ${isTr ? 'ÜST DÜZEY PERFORMANS GÖSTERGE PANOLARI' : '    EXECUTIVE PERFORMANCE DASHBOARD         '}               |
    +--------------------------------------------------------------------+
    
-   ■ ENTERPRISE PROJECT PORTFOLIO (STRATEGIC DELIVERABLES)
+   ■ ${isTr ? 'KURUMSAL PROJE PORTFÖYÜ (STRATEJİK ÇIKTILAR)' : 'ENTERPRISE PROJECT PORTFOLIO (STRATEGIC DELIVERABLES)'}
    ----------------------------------------------------------------------
-   1. COST OPTIMIZATION PROJECT (MALİYET OPTİMİZASYONU)
+   1. COST OPTIMIZATION PROJECT (${isTr ? 'MALİYET OPTİMİZASYONU' : 'COST OPTIMIZATION'})
       - FOCUS: MARGIN ENHANCEMENTS, COST MODELING & PRICING ARCHITECTURE.
    
-   2. END-TO-END CUSTOMER EXPERIENCE (UÇTAN UCA MÜŞTERİ DENEYİMİ)
+   2. END-TO-END CUSTOMER EXPERIENCE (${isTr ? 'UÇTAN UCA MÜŞTERİ DENEYİMİ' : 'CUSTOMER EXPERIENCE'})
       - FOCUS: TURQUALITY PROJECT - UX OPTIMIZATION & GLOBAL COMPLIANCE.
    
-   3. DIGITALIZATION IN SALES (SATIŞTA DİJİTALLEŞME)
+   3. DIGITALIZATION IN SALES (${isTr ? 'SATIŞTA DİJİTALLEŞME' : 'DIGITAL SALES'})
       - FOCUS: TURQUALITY PROJECT - CRM INTEGRATION & RPA REQ. ANALYSIS.
    
-   4. CUSTOMER SEGMENTATION PROJECT (MÜŞTERİ SEGMENTASYONU)
+   4. CUSTOMER SEGMENTATION PROJECT (${isTr ? 'MÜŞTERİ SEGMENTASYONU' : 'CUSTOMER SEGMENTATION'})
       - FOCUS: DATA-DRIVEN TARGETING & QLIK SENSE BI DATA ANALYSIS.
    
-   ■ PROFESSIONAL CAPABILITIES SUMMARY (CORE SKILLS)
+   ■ ${isTr ? 'MESLEKİ YETKİNLİK ÖZETİ (TEMEL BECERİLER)' : 'PROFESSIONAL CAPABILITIES SUMMARY (CORE SKILLS)'}
    ----------------------------------------------------------------------
    - DOMAIN BACKGROUND : INDUSTRIAL ENGINEERING + COMPUTER PROGRAMMING
    - SYSTEMS ARCHITYPE : SAP ERP (KEY USER), QLIK SENSE BI, CRM
    - THE BRIDGE ROLE   : BUSINESS-IT ALIGNMENT & TECHNICAL INTERPRETATION
    - COMMERCIAL ENGINE : PRICING SYSTEMS, KPI MANAGEMENT & BUDGETING
    
-   ■ OPERATIONAL PROCESS MATRIX
+   ■ ${isTr ? 'OPERASYONEL SÜREÇ MATRİSİ' : 'OPERATIONAL PROCESS MATRIX'}
    ----------------------------------------------------------------------
    [✓] REVENUE & PROFITABILITY ANALYSIS   [✓] ANNUAL SALES BUDGETING
    [✓] SALES COMMISSIONS/KPI LOGIC        [✓] COMMERCIAL LEAKAGE CONTROL
@@ -281,7 +361,7 @@ async function displayBusinessDashboard() {
     const finalMessage = document.createElement('p');
     finalMessage.classList.add('output');
     terminalOutput.appendChild(finalMessage);
-    await typeWriter("Operational overview generated successfully. System stable.", finalMessage, 20);
+    await typeWriter(isTr ? "Operasyonel özet başarıyla oluşturuldu. Sistem kararlı." : "Operational overview generated successfully. System stable.", finalMessage, 20);
 }
 
 function normalizeCommand(cmd) {
@@ -307,30 +387,32 @@ function processCommand(command) {
         });
     }
 
+    const t = translations[currentLang];
+
     switch(cleanCommand) {
         case 'help':
-            return 'AVAILABLE COMMANDS: about, education, skills, experience, dashboard, certifications, contact, cv, clear';
+            return t.help;
         case 'about':
-            return 'BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, AND DIGITAL TRANSFORMATION PROJECTS.';
+            return t.about;
         case 'education':
-            return 'EDUCATION BACKGROUND:<br>- DOGUS UNIVERSITY: INDUSTRIAL ENGINEERING (B.Sc. - 100% SCHOLARSHIP)<br>- AKDENIZ UNIVERSITY: COMPUTER PROGRAMMING (A.A.S.)';
+            return t.education;
         case 'skills':
-            return 'CORE COMPETENCIES:<br>- DATA & BI: SAP ERP, QLIK SENSE, PYTHON, DATA SCIENCE, PROCESS SIMULATION<br>- STRATEGY: COMMERCIAL ANALYSIS, PRICING & COST MANAGEMENT, REVENUE OPTIMIZATION, BUDGET PLANNING<br>- BRIDGE ROLE: BUSINESS-IT ALIGNMENT, DIGITAL SALES PROCESSES, REQ. TRANSLATION FOR RPA/CRM';
+            return t.skills;
         case 'experience':
-            return 'PROFESSIONAL SUMMARY:<br>- SENIOR BUSINESS DEVELOPMENT SPECIALIST (2022 - PRESENT): MANAGING PRICING ARCHITECTURE, REVENUE ANALYSIS, AND BRIDGING THE GAP BETWEEN COMMERCIAL TEAMS AND IT DEPARTMENTS AS A KEY USER.<br>- PLANNING & OPTIMIZATION ENGINEER (2020 - 2022): WORKFORCE MANAGEMENT, SYSTEM MONITORING, KPI EVALUATION, AND PERFORMANCE REPORTING.';
+            return t.experience;
         case 'dashboard':
             displayBusinessDashboard();
             return '';
         case 'certifications':
-            return 'PROFESSIONAL CERTIFICATIONS & TRAINING:<br>- SAP ERP FUNCTIONAL KEY USER CORE TRAINING<br>- QLIK SENSE DATA ARCHITECTURE & ANALYTICS ADVANCED COURSE<br>- BUSINESS PROCESS ANALYSIS & SIMULATION MODELING CERTIFICATE';
+            return t.certifications;
         case 'contact':
-            return 'CONTACT CHANNELS & LOCATION:<br>- LOCATION: ISTANBUL, TURKIYE<br>- EMAIL: <a href="mailto:barisumutaltun@outlook.com" target="_blank">barisumutaltun@outlook.com</a><br>- LINKEDIN: <a href="https://www.linkedin.com/in/barisumutaltun/" target="_blank">linkedin.com/in/barisumutaltun</a>';
+            return t.contact;
         case 'cv':
             const link = document.createElement('a');
             link.href = 'Baris_Umut_Altun_CV.pdf';
             link.download = 'Baris_Umut_Altun_CV.pdf';
             link.click();
-            return 'INITIALIZING RESUME DOWNLOAD SUB-ROUTINE... DONE.';
+            return t.cv;
         case 'clear':
             terminalOutput.innerHTML = '';
             return '';
