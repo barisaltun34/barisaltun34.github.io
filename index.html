@@ -235,7 +235,6 @@ const translations = {
     en: {
         subtitle: "IT PROFESSIONAL & INDUSTRIAL ENGINEER | INTERACTIVE PORTFOLIO",
         helpBanner: "FOR COMMAND LIST TYPE 'HELP' AND PRESS ENTER.",
-        langChanged: "SYSTEM LANGUAGE SET TO ENGLISH.",
         help: "AVAILABLE COMMANDS: about, education, skills, experience, dashboard, certifications, contact, cv, clear",
         about: "BARIS UMUT ALTUN IS AN INDUSTRIAL ENGINEER & COMPUTER PROGRAMMER WITH 5+ YEARS OF EXPERTISE IN BUSINESS DEVELOPMENT, STRATEGIC REPORTING, AND DIGITAL TRANSFORMATION PROJECTS.",
         education: "EDUCATION BACKGROUND:<br>- DOGUS UNIVERSITY: INDUSTRIAL ENGINEERING (B.Sc. - 100% SCHOLARSHIP)<br>- AKDENIZ UNIVERSITY: COMPUTER PROGRAMMING (A.A.S.)",
@@ -254,9 +253,8 @@ const translations = {
     },
     tr: {
         subtitle: "BİLİŞİM UZMANI & ENDÜSTRİ MÜHENDİSİ | İNTERAKTİF PORTFOLYO",
-        helpBanner: "KOMUT LİSTESİ İÇİN 'HELP' YAZIP ENTER'A BASIN.",
-        langChanged: "SİSTEM DİLİ TÜRKÇE OLARAK AYARLANDI.",
-        help: "KULLANILABİLİR KOMUTLAR: about, education, skills, experience, dashboard, certifications, contact, cv, clear",
+        helpBanner: "KOMUT LİSTESİ İÇİN 'YARDIM' YAZIP ENTER'A BASIN.",
+        help: "KULLANILABİLİR KOMUTLAR: hakkimda, egitim, yetenekler, deneyim, dashboard, sertifikalar, iletisim, cv, temizle",
         about: "BARIŞ UMUT ALTUN, İŞ GELİŞTİRME, STRATEJİK RAPORLAMA VE DİJİTAL DÖNÜŞÜM PROJELERİNDE 5+ YIL DENEYİME SAHİP BİR ENDÜSTRİ MÜHENDİSİ VE BİLGİSAYAR PROGRAMCISIDIR.",
         education: "EĞİTİM GEÇMİŞİ:<br>- DOĞUŞ ÜNİVERSİTESİ: ENDÜSTRİ MÜHENDİSLİĞİ (LİSANS - %100 BURS)<br>- AKDENİZ ÜNİVERSİTESİ: BİLGİSAYAR PROGRAMCILIĞI (ÖNLİSANS)",
         skills: "TEMEL YETKİNLİKLER:<br>- VERİ & BI: SAP ERP, QLIK SENSE, PYTHON, VERİ BİLİMİ, SÜREÇ SİMÜLASYONU<br>- STRATEJİ: TİCARİ ANALİZ, FİYATLANDIRMA VE MALİYET YÖNETİMİ, GELİR OPTİMİZASYONU, BÜTÇE PLANLAMA<br>- KÖPRÜ ROLÜ: İŞ-IT UYUMU, DİJİTAL SATIŞ SÜREÇLERİ, RPA/CRM İÇİN GEREKSİNİM ANALİZİ",
@@ -269,7 +267,7 @@ const translations = {
             "Hata 404: Pazar sapması tespit edildi. Geçerli bir komut deneyin.",
             "Veri hattı meşgul. Lütfen resmi menüye bağlı kalın.",
             "Optimizasyon hatası: Bu sorgu için yetersiz veri değişkeni.",
-            "Erişim onaylandı ancak komut geçersiz. Kurumsal onay için 'help' yazın."
+            "Erişim onaylandı ancak komut geçersiz. Kurumsal onay için 'yardim' yazın."
         ]
     }
 };
@@ -284,9 +282,6 @@ function setLanguage(lang) {
     // Arayüz sabit yazılarını güncelle
     subtitleText.innerHTML = translations[lang].subtitle;
     helpText.innerHTML = translations[lang].helpBanner;
-    
-    // Geçiş bilgisini terminale yazdır
-    addOutput(translations[lang].langChanged);
 }
 
 function addOutput(text) {
@@ -381,7 +376,7 @@ function normalizeCommand(cmd) {
 function processCommand(command) {
     const cleanCommand = normalizeCommand(command);
 
-    if (cleanCommand !== '' && cleanCommand !== 'clear') {
+    if (cleanCommand !== '' && cleanCommand !== 'clear' && cleanCommand !== 'temizle') {
         gtag('event', 'terminal_command', {
             'command_value': cleanCommand
         });
@@ -389,7 +384,20 @@ function processCommand(command) {
 
     const t = translations[currentLang];
 
-    switch(cleanCommand) {
+    // TR VE ENG DİLİNDEKİ TÜM KOMUT EŞLEŞTİRMELERİ
+    let action = '';
+    if (['help', 'yardim'].includes(cleanCommand)) action = 'help';
+    else if (['about', 'hakkimda', 'hakkinda'].includes(cleanCommand)) action = 'about';
+    else if (['education', 'egitim'].includes(cleanCommand)) action = 'education';
+    else if (['skills', 'yetenekler'].includes(cleanCommand)) action = 'skills';
+    else if (['experience', 'deneyim', 'tecrube'].includes(cleanCommand)) action = 'experience';
+    else if (['dashboard', 'pano'].includes(cleanCommand)) action = 'dashboard';
+    else if (['certifications', 'sertifikalar'].includes(cleanCommand)) action = 'certifications';
+    else if (['contact', 'iletisim'].includes(cleanCommand)) action = 'contact';
+    else if (['cv', 'ozgecmis'].includes(cleanCommand)) action = 'cv';
+    else if (['clear', 'temizle'].includes(cleanCommand)) action = 'clear';
+
+    switch(action) {
         case 'help':
             return t.help;
         case 'about':
